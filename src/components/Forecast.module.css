@@ -13,7 +13,11 @@
 
 .Radio {
     font-size: small;
-    color: blue;
+    display: flex;
+    /* flex-direction: column; */
+    padding: 5px;
+    margin: 1px;
+
 }
 
 .Button {
