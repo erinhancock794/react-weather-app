@@ -9,55 +9,14 @@ const Forecast = () => {
     const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5'
     const WEATHER_API_KEY = '880bcb631f870f8a5bd11ec2bd58f4d1';
 
-    // const GEO_API_KEY = 'AIzaSyATBnmFjxXtXzvjiq0TvbsQGlg04FCk_FE'
-
     let [city, setCity] = useState('');
     let [unit, setUnit] = useState('imperial');
     let [responseObj, setResponseObj] = useState({});
     let [error, setError] = useState(false);
     let [loading, setLoading] = useState(false);
-    let [date, setDate] = useState([]);
-    let [dates, setDates] = useState([]);
-    let [weather, setWeather] = useState([]);
-
-    let [time, setTime] = useState([]);
     let [allForecasts, setAllForecasts] = useState([]);
+    let [hourly, setHourly] = useState([]);
 
-
-    // function getCurrentWeather(e) { 
-    //     e.preventDefault();
-    //     if (city.length === 0) {
-    //         return setError(true);
-    //     }
-    //     setError(false);
-    //     setResponseObj({});
-    //     setLoading(true);
-    //     const uriEncodedCity = encodeURIComponent(city);
-    //     const url = `${WEATHER_API_URL}/weather?q=${uriEncodedCity}&appid=${WEATHER_API_KEY}&units=${unit}`;
-
-
-
-    //     fetch(url)
-    //     .then( (response) => {
-    //         return response.json()
-    //     })
-    //     .then((response) => {
-    //         console.log('res', response)
-
-    //         if (response.cod !== 200) {
-    //             throw new Error()
-    //         }
-
-    //         setResponseObj(response);
-    //         console.log('response obj', responseObj);
-    //         setLoading(false);
-    //     })
-    //     .catch((error) => {
-    //         setError(true);
-    //         setLoading(false);
-    //         console.log(error.message);
-    //     })
-    // }
 
     function getWeeklyForecast(e) { 
         e.preventDefault();
@@ -68,77 +27,68 @@ const Forecast = () => {
         setError(false);
         setResponseObj({});
         setLoading(true);
-        setDate([]);
-        setTime([]);
-        setWeather([]);
+        setHourly([]);
         
 
         const uriEncodedCity = encodeURIComponent(city);
         const url = `${WEATHER_API_URL}/forecast?q=${uriEncodedCity}&appid=${WEATHER_API_KEY}&units=${unit}`;
 
+        const d = new Date();
+        const todayDayNum = d.getDate();
+
         fetch(url)
         .then( (response) => {
-            console.log('response---', response);
             return response.json()
         })
         .then((response) => {
-            console.log('res', response)
 
             if (response.cod !== "200") {
-                console.log('cod is not 200');
                 throw new Error();
             }
 
             setResponseObj(response);
-            let cityName = response.city.name;
-            console.log('cityName---', cityName);
+            let city = response.city.name;
             const forecastArray = response.list;
-            console.log('forecastArray---', forecastArray);
+            let hourlyForecasts = []
             let newForecasts = [];
             let newTime = [];
             let weatherDescription = [];
 
            _.forEach(forecastArray, (forecast) => {
-
-                // console.log('forecast--', forecast);
+            
                 let time = forecast.dt_txt;
+            
+                let timezone = moment.unix((forecast.dt)-21600).format();
+
+                
                 let weather = forecast.weather[0].description;
+                if (timezone.includes(`-${todayDayNum + 1}`)) {
+
+                    let hourlyObject = {
+                        time: moment(time).format("hh:mm a"),
+                        temp: forecast.main.temp
+                    }
+                    hourlyForecasts.push(hourlyObject)
+
+
+                }
 
                 if (time.includes('12:00:00')) {
                     time = moment(time).format("MMMM Do")
                     newTime.push(time);
                     weatherDescription.push(weather);
-                    let newThing = {
+                    let weeklyForecastData = {
                         time,
                         weather,
                         temp: forecast.main.temp,
-                        city: cityName
+                        city
                     }
-                    newForecasts.push(newThing);
-             
-                    console.log('newthing---', newThing);
+                    newForecasts.push(weeklyForecastData);
                 }
-                // console.log('new time--->', time);
-
-        
-
             });
-       
-
-
-            let unixDate = moment(response.list[0].dt).toString("MMMM Do YYYY, h:mm:ss a");
-            console.log(response.list[0].dt);
-            console.log('unix date0--', unixDate);
-            console.log('NEW FORCATS--', newForecasts);
-
-            setTime(newTime)
-            setDate(newForecasts);
-            setDates(newForecasts);
-            setWeather(weatherDescription);
-
+            setHourly(hourlyForecasts);
             setAllForecasts(newForecasts);
             setLoading(false);
-            // return response;
         })
         .catch((error) => {
             setError(true);
@@ -189,13 +139,9 @@ type="button" onClick={getWeeklyForecast}> Weekly Forecast</button>
                 responseObj={responseObj}
                 error={error}
                 loading={loading}
-                // date={date}
-                // time={time}
-                // dates={dates}
-                // weather={weather}
                 allForecasts={allForecasts}
+                hourly={hourly}
            />
-
 
        </div>
     )

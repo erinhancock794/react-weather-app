@@ -1,23 +1,45 @@
+.Wrapper {
+    margin: 20px;
+    border: 2px solid;
+    border-radius: 10px;
+    background-color: #61dafb;
+    padding: 2%;
+}
+.Wrapper small{
+    color: red;
+}
+
 .Dates {
 
     display: flex;
     flex-direction: row;
     justify-content: center;
-    /* background-color: red; */
+    
 }
 .ForecastInfo {
     display: flex;
-    /* padding: 4px; */
     justify-content: center;
 }
 .Objects {
-    /* color: red; */
     border: solid 1px black;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 5px;
+    background-color: #b4ebfa;
+
 
 }
 
+.Hours {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: row;
+    padding: 5px;
+    margin: 10px;
+    border: solid 1px black;
+    border-radius: 10px;
+    margin-bottom: 40px;
+    background-color: #b4ebfa;    
+}

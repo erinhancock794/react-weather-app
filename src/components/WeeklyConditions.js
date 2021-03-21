@@ -2,11 +2,11 @@ import React from 'react';
 import classes from './WeeklyConditions.module.css';
 
 const weeklyconditions = (props) => {
-    console.log('props---', props.allForecasts);
+    console.log('props---', props.responseObj);
 
     return (
         <div className={classes.Wrapper}>
-            {props.error && <small> Please enter a valid city.</small>}
+            {props.error && <small> City not found. Please enter a valid city.</small>}
             {props.loading && <div> Loading...</div>}
 
             {props.allForecasts[0] ? 
@@ -18,7 +18,29 @@ const weeklyconditions = (props) => {
                 null
             }
 
+{props.hourly[0] ? 
+
+<div className="hour">
+<p>Today's hourly temperatures</p>
+
+   <div className={classes.Hours}>
+       {(props.hourly).map((hour, index) => (
+           <div key={index}>
+               <p>{hour.time}</p>
+               <p>{hour.temp}</p>
+           </div>
+       ))}
+   </div> 
+    
+
+</div>
+: null
+       
+       }
+
+
             <div className={classes.Dates}>
+
                 <div className={classes.ForecastInfo}>
              {(props.allForecasts).map((forecast, index) => (
                 <div key={index}>
@@ -32,7 +54,10 @@ const weeklyconditions = (props) => {
              ))}
         </div>
 
+                
+                
         </div>
+
 
         </div>
 

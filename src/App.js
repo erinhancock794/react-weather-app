@@ -14,8 +14,8 @@ export default function App() {
       <main>
       <h2>Find Current Weather Conditions</h2>
 
-        
         <Forecast />
+        <h2>Find Weekly Weather Conditions</h2>
         <WeeklyForecast />
       </main>
       

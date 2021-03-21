@@ -7,8 +7,6 @@ const Forecast = () => {
     const WEATHER_API_URL = 'https://api.openweathermap.org/data/2.5'
     const WEATHER_API_KEY = '880bcb631f870f8a5bd11ec2bd58f4d1';
 
-    // const GEO_API_KEY = 'AIzaSyATBnmFjxXtXzvjiq0TvbsQGlg04FCk_FE'
-
     let [city, setCity] = useState('');
     let [unit, setUnit] = useState('imperial');
     let [responseObj, setResponseObj] = useState({});
@@ -26,8 +24,6 @@ const Forecast = () => {
         setLoading(true);
         const uriEncodedCity = encodeURIComponent(city);
         const url = `${WEATHER_API_URL}/weather?q=${uriEncodedCity}&appid=${WEATHER_API_KEY}&units=${unit}`;
-
-
 
         fetch(url)
         .then( (response) => {
@@ -50,44 +46,6 @@ const Forecast = () => {
             console.log(error.message);
         })
     }
-
-    // function getWeeklyForecast(e) { 
-    //     e.preventDefault();
-    //     if (city.length === 0) {
-    //         console.log('city length error');
-    //         return setError(true);
-    //     }
-    //     setError(false);
-    //     setResponseObj({});
-    //     setLoading(true);
-
-    //     const uriEncodedCity = encodeURIComponent(city);
-    //     const url = `${WEATHER_API_URL}/forecast?q=${uriEncodedCity}&cnt=7&appid=${WEATHER_API_KEY}&units=${unit}`;
-
-    //     fetch(url)
-    //     .then( (response) => {
-    //         console.log('response---', response);
-    //         return response.json()
-    //     })
-    //     .then((response) => {
-    //         console.log('res', response)
-
-    //         if (response.cod !== "200") {
-    //             console.log('cod is not 200');
-    //             throw new Error();
-    //         }
-
-    //         setResponseObj(response);
-    //         console.log('response obj', responseObj);
-    //         setLoading(false);
-    //     })
-    //     .catch((error) => {
-    //         setError(true);
-    //         setLoading(false);
-    //         console.log(error.message);
-    //     })
-    // }
-
 
 
     return (
@@ -132,10 +90,7 @@ type="submit"> Current Weather</button>
                 error={error}
                 loading={loading}
            />
-            
         </form>
-
-
        </div>
     )
 }
