@@ -1,8 +1,8 @@
 // import logo from './logo.svg';
-import React from "react";
+import React from 'react';
 import './App.css';
-import Forecast from "./components/Forecast";
-import WeeklyForecast from "./components/WeeklyForecast";
+import Forecast from './components/Forecast';
+import WeeklyForecast from './components/WeeklyForecast';
 
 
 export default function App() {
